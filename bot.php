@@ -21,15 +21,16 @@ set_time_limit(999999);
 use GuzzleHttp\Client;
 use GuzzleHttp\Promise;
 
-$upload = new Uploader();
+$upload = new Uploader('http://httpbin.org/post');
 
 $upload->sendImages(4, "test_01_", "prueba enviar 4 imagenes en una sola peticion");
 
 
 class Uploader{
 
-	public function __construct(){
-		$this->dirBase = dirname(__FILE__);
+	public function __construct($fileUploadUrl){
+        $this->fileUploadUrl = $fileUploadUrl;
+        $this->dirBase = dirname(__FILE__);
 		$this->images  = [];
 		$filepath_base = $this->dirBase.'/Libraries/Images/';
 
@@ -73,10 +74,12 @@ class Uploader{
         if($future){
             $body["future"] = true;
         }
-        echo "upload \n";
-        echo json_encode($body, JSON_PRETTY_PRINT)."\n";
-        $response = $client->request('POST', 'http://httpbin.org/post', $body);
-        echo json_encode($response, JSON_PRETTY_PRINT)."\n";
+        echo "upload to ".$this->fileUploadUrl."\n";
+        print_r($body);
+        echo "--- \n";
+        $response = $client->request('POST',$this->fileUploadUrl, $body);
+        print_r($response);
+        echo "--- \n";
     }
 
 	public function getRandomBase(){
