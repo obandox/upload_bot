@@ -1,0 +1,6 @@
+{
+    "require": {
+        "guzzlehttp/guzzle": "~6.0",
+        "sybio/image-workshop": "^2.0"
+    }
+}
